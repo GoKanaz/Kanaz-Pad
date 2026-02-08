@@ -118,3 +118,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
+
+configurations.all {
+    exclude(group = "org.jetbrains", module = "annotations-java5")
+}
