@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/auto"
+    android:id="@+id/cardFolder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
     app:cardElevation="2dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,27 +18,41 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/ic_folder"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"
+            app:tint="@color/purple_500" />
 
-        <TextView
-            android:id="@+id/tvFolderName"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="16dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvNoteCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
+            <TextView
+                android:id="@+id/tvFolderName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvNoteCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivMenu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_more"
+            android:contentDescription="@string/app_name" />
 
     </LinearLayout>
 

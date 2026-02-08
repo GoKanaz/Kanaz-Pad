@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/auto"
+    android:id="@+id/cardNote"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
     app:cardElevation="2dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,13 +16,30 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <ImageView
+                android:id="@+id/ivMenu"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_more"
+                android:contentDescription="@string/app_name" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvContent"
@@ -28,16 +48,31 @@
             android:layout_marginTop="8dp"
             android:maxLines="3"
             android:ellipsize="end"
-            android:textSize="14sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/tvDate"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="12sp"
-            android:textColor="@android:color/darker_gray" />
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvFolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:drawablePadding="4dp"
+                app:drawableStartCompat="@drawable/ic_folder" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -12,7 +12,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/app_name" />
+            app:title="@string/edit_note"
+            app:navigationIcon="@drawable/ic_back"
+            app:menu="@menu/menu_editor" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -27,26 +29,38 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <EditText
-                android:id="@+id/etTitle"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Title"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"
-                android:inputType="text" />
+                android:hint="@string/title_hint"
+                app:boxBackgroundMode="none">
 
-            <EditText
-                android:id="@+id/etContent"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Content"
-                android:gravity="top"
-                android:minHeight="200dp"
-                android:background="@android:color/transparent"
-                android:inputType="textMultiLine" />
+                android:hint="@string/content_hint"
+                app:boxBackgroundMode="none">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:minHeight="400dp"
+                    android:inputType="textMultiLine|textCapSentences" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
