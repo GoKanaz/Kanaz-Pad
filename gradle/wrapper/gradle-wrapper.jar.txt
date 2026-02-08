@@ -1,0 +1,21 @@
+NOTE: gradle-wrapper.jar adalah file binary yang harus di-download dari Gradle.
+
+Cara mendapatkan gradle-wrapper.jar:
+
+1. Buka Android Studio
+2. Buka project KanazPad
+3. Jalankan di Terminal:
+   ./gradlew wrapper --gradle-version 8.4
+   
+4. Atau download manual dari:
+   https://services.gradle.org/distributions/gradle-8.4-bin.zip
+   
+5. Extract dan copy file:
+   gradle-8.4/lib/gradle-wrapper-8.4.jar
+   ke folder ini dan rename menjadi gradle-wrapper.jar
+
+File ini diperlukan untuk menjalankan Gradle Wrapper.
+Ukuran sekitar 60KB.
+
+Android Studio akan otomatis generate file ini saat pertama kali 
+membuka project.
