@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gokanaz.kanazpad.data.model.Note
+import com.gokanaz.kanazpad.ui.adapter.NoteAdapter
 import com.gokanaz.kanazpad.ui.editor.EditorActivity
 import com.gokanaz.kanazpad.utils.FileImporter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -23,8 +24,8 @@ import java.util.Date
 class MainActivity : AppCompatActivity() {
     
     private lateinit var recyclerView: RecyclerView
-    private lateinit var fabNewNote: FloatingActionButton
-    private lateinit var adapter: NotesAdapter
+    private lateinit var fabAdd: FloatingActionButton
+    private lateinit var adapter: NoteAdapter
     
     private val repository by lazy {
         (application as KanazPadApplication).repository
@@ -66,8 +67,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = "Kanaz Pad"
         supportActionBar?.subtitle = "@GoKanaz"
         
-        recyclerView = findViewById(R.id.recyclerViewNotes)
-        fabNewNote = findViewById(R.id.fabNewNote)
+        recyclerView = findViewById(R.id.recyclerView)
+        fabAdd = findViewById(R.id.fabAdd)
         
         setupRecyclerView()
         setupFab()
@@ -96,11 +97,11 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun setupRecyclerView() {
-        adapter = NotesAdapter(
-            onNoteClick = { note ->
+        adapter = NoteAdapter(
+            onNoteClick = { note: Note ->
                 openEditor(note.id)
             },
-            onNoteLongClick = { note ->
+            onMenuClick = { note: Note, view: android.view.View ->
                 showNoteOptionsDialog(note)
             }
         )
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun setupFab() {
-        fabNewNote.setOnClickListener {
+        fabAdd.setOnClickListener {
             createNewNote()
         }
     }
@@ -259,25 +260,26 @@ class MainActivity : AppCompatActivity() {
     }
     
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         
         val searchItem = menu.findItem(R.id.action_search)
-        val searchView = searchItem.actionView as SearchView
-        
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-            
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) {
-                    observeNotes()
-                } else {
-                    searchNotes(newText)
+        if (searchItem != null) {
+            val searchView = searchItem.actionView as? SearchView
+            searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
                 }
-                return true
-            }
-        })
+                
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNullOrEmpty()) {
+                        observeNotes()
+                    } else {
+                        searchNotes(newText)
+                    }
+                    return true
+                }
+            })
+        }
         
         return true
     }
