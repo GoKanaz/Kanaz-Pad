@@ -127,8 +127,8 @@ class MainActivity : AppCompatActivity() {
     private fun createNewNote() {
         lifecycleScope.launch {
             val newNote = Note(
-                title = "New Note",
-                content = "# New Note\n\nStart writing here...",
+                title = "",
+                content = "",
                 createdAt = Date(),
                 updatedAt = Date()
             )
