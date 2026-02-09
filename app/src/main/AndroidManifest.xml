@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KanazPad"
         tools:targetApi="31">
-        
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -31,8 +31,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
-            <!-- Support opening .md and .txt files -->
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -41,18 +40,18 @@
                 <data android:mimeType="text/markdown" />
             </intent-filter>
         </activity>
-        
+
         <activity
             android:name=".ui.editor.EditorActivity"
             android:exported="false"
             android:theme="@style/Theme.KanazPad"
-            android:windowSoftInputMode="adjustResize" />
-            
+            android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="false"
             android:theme="@style/Theme.KanazPad" />
-            
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
