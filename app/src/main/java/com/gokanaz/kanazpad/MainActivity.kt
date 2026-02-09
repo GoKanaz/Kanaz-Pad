@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: NotesAdapter
     
     private val repository by lazy {
-        (application as KanazPadApplication).noteRepository
+        (application as KanazPadApplication).repository
     }
     
     private val importFileLauncher = registerForActivityResult(
@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Install splash screen
         installSplashScreen()
         
         super.onCreate(savedInstanceState)
@@ -74,7 +73,6 @@ class MainActivity : AppCompatActivity() {
         setupFab()
         observeNotes()
         
-        // Handle intent if app was opened with a file
         handleIntent(intent)
     }
     
@@ -294,28 +292,14 @@ class MainActivity : AppCompatActivity() {
     
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_import -> {
-                importFileLauncher.launch("*/*")
-                true
-            }
-            R.id.action_favorites -> {
-                showFavorites()
+            R.id.action_search -> {
                 true
             }
             R.id.action_settings -> {
-                // TODO: Open settings
                 Toast.makeText(this, "Settings coming soon", Toast.LENGTH_SHORT).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-    
-    private fun showFavorites() {
-        lifecycleScope.launch {
-            repository.getFavoriteNotes().collectLatest { notes ->
-                adapter.submitList(notes)
-            }
         }
     }
 }

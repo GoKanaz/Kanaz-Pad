@@ -33,7 +33,7 @@ class FolderAdapter(
 
         fun bind(folder: Folder) {
             tvFolderName.text = folder.name
-            tvNoteCount.text = "${folder.noteCount} notes"
+            tvNoteCount.text = "Folder"
 
             itemView.setOnClickListener { onFolderClick(folder) }
             ivMenu.setOnClickListener { onMenuClick(folder, it) }
