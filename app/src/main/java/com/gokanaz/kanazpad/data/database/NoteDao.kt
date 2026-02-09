@@ -25,8 +25,8 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE id = :noteId")
     fun getNoteByIdFlow(noteId: Long): Flow<Note?>
     
-    @Query("SELECT tags FROM notes WHERE tags IS NOT NULL")
-    suspend fun getAllTags(): List<List<String>>
+    @Query("SELECT * FROM notes WHERE tags IS NOT NULL")
+    suspend fun getNotesWithTags(): List<Note>
     
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: Note): Long

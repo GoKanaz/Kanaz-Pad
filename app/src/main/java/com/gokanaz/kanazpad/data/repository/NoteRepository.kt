@@ -30,8 +30,14 @@ class NoteRepository(
     suspend fun getNoteByIdSuspend(noteId: Long): Note? = noteDao.getNoteById(noteId)
     
     suspend fun getAllTags(): List<String> {
-        val tagLists = noteDao.getAllTags()
-        return tagLists.flatten().distinct().sorted()
+        val notes = noteDao.getNotesWithTags()
+        val allTags = mutableSetOf<String>()
+        notes.forEach { note ->
+            note.tags?.let { tags ->
+                allTags.addAll(tags)
+            }
+        }
+        return allTags.sorted()
     }
     
     suspend fun insertNote(note: Note): Long {
