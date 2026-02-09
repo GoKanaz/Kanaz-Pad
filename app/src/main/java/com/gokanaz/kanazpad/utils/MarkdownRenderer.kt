@@ -2,21 +2,35 @@ package com.gokanaz.kanazpad.utils
 
 import android.content.Context
 import android.widget.TextView
-import org.commonmark.parser.Parser
-import org.commonmark.renderer.html.HtmlRenderer
+import io.noties.markwon.Markwon
+import io.noties.markwon.SoftBreakAddsNewLinePlugin
+import io.noties.markwon.ext.tables.TablePlugin
+import io.noties.markwon.html.HtmlPlugin
+import io.noties.markwon.image.ImagesPlugin
 
 object MarkdownRenderer {
     
-    private val parser = Parser.builder().build()
-    private val renderer = HtmlRenderer.builder().build()
+    private var markwonInstance: Markwon? = null
+    
+    fun getMarkwon(context: Context): Markwon {
+        if (markwonInstance == null) {
+            markwonInstance = Markwon.builder(context)
+                .usePlugin(ImagesPlugin.create())
+                .usePlugin(TablePlugin.create(context))
+                .usePlugin(HtmlPlugin.create())
+                .usePlugin(SoftBreakAddsNewLinePlugin.create())
+                .build()
+        }
+        return markwonInstance!!
+    }
     
     fun renderMarkdown(context: Context, textView: TextView, markdown: String) {
-        val html = parseMarkdownToHtml(context, markdown)
-        textView.text = android.text.Html.fromHtml(html, android.text.Html.FROM_HTML_MODE_LEGACY)
+        val markwon = getMarkwon(context)
+        markwon.setMarkdown(textView, markdown)
     }
     
     fun parseMarkdownToHtml(context: Context, markdown: String): String {
-        val document = parser.parse(markdown)
-        return renderer.render(document)
+        val markwon = getMarkwon(context)
+        return markwon.toMarkdown(markdown).toString()
     }
 }
