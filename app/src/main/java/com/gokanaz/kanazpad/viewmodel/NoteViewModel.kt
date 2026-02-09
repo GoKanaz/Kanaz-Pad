@@ -2,6 +2,7 @@ package com.gokanaz.kanazpad.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.gokanaz.kanazpad.data.model.Folder
 import com.gokanaz.kanazpad.data.model.Note
@@ -10,8 +11,8 @@ import kotlinx.coroutines.launch
 
 class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
 
-    val allNotes: LiveData<List<Note>> = repository.getAllNotes()
-    val allFolders: LiveData<List<Folder>> = repository.getAllFolders()
+    val allNotes: LiveData<List<Note>> = repository.getAllNotes().asLiveData()
+    val allFolders: LiveData<List<Folder>> = repository.getAllFolders().asLiveData()
 
     fun insertNote(note: Note) = viewModelScope.launch {
         repository.insertNote(note)
@@ -26,7 +27,7 @@ class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
     }
 
     fun getNoteById(id: Long): LiveData<Note?> {
-        return repository.getNoteById(id)
+        return repository.getNoteById(id).asLiveData()
     }
 
     fun insertFolder(folder: Folder) = viewModelScope.launch {
@@ -42,10 +43,10 @@ class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
     }
 
     fun getNotesByFolder(folderId: Long): LiveData<List<Note>> {
-        return repository.getNotesByFolder(folderId)
+        return repository.getNotesByFolder(folderId).asLiveData()
     }
 
     fun searchNotes(query: String): LiveData<List<Note>> {
-        return repository.searchNotes(query)
+        return repository.searchNotes(query).asLiveData()
     }
 }

@@ -2,14 +2,17 @@ package com.gokanaz.kanazpad.data.repository
 
 import com.gokanaz.kanazpad.data.database.NoteDao
 import com.gokanaz.kanazpad.data.database.NoteVersionDao
+import com.gokanaz.kanazpad.data.database.FolderDao
 import com.gokanaz.kanazpad.data.model.Note
 import com.gokanaz.kanazpad.data.model.NoteVersion
+import com.gokanaz.kanazpad.data.model.Folder
 import kotlinx.coroutines.flow.Flow
 import java.util.Date
 
 class NoteRepository(
     private val noteDao: NoteDao,
-    private val versionDao: NoteVersionDao
+    private val versionDao: NoteVersionDao,
+    private val folderDao: FolderDao
 ) {
     
     fun getAllNotes(): Flow<List<Note>> = noteDao.getAllNotes()
@@ -22,7 +25,9 @@ class NoteRepository(
     
     fun getFavoriteNotes(): Flow<List<Note>> = noteDao.getFavoriteNotes()
     
-    suspend fun getNoteById(noteId: Long): Note? = noteDao.getNoteById(noteId)
+    fun getNoteById(noteId: Long): Flow<Note?> = noteDao.getNoteByIdFlow(noteId)
+    
+    suspend fun getNoteByIdSuspend(noteId: Long): Note? = noteDao.getNoteById(noteId)
     
     suspend fun getAllTags(): List<String> {
         val tagLists = noteDao.getAllTags()
@@ -45,7 +50,20 @@ class NoteRepository(
         noteDao.deleteNoteById(noteId)
     }
     
-    // Version History
+    fun getAllFolders(): Flow<List<Folder>> = folderDao.getAllFolders()
+    
+    suspend fun insertFolder(folder: Folder): Long {
+        return folderDao.insertFolder(folder)
+    }
+    
+    suspend fun updateFolder(folder: Folder) {
+        folderDao.updateFolder(folder)
+    }
+    
+    suspend fun deleteFolder(folder: Folder) {
+        folderDao.deleteFolder(folder)
+    }
+    
     fun getVersionHistory(noteId: Long): Flow<List<NoteVersion>> = 
         versionDao.getVersionsByNoteId(noteId)
     
@@ -57,12 +75,11 @@ class NoteRepository(
             comment = comment
         )
         versionDao.insertVersion(version)
-        // Keep only last 10 versions
         versionDao.deleteOldVersions(note.id, 10)
     }
     
     suspend fun restoreVersion(noteId: Long, version: NoteVersion) {
-        val note = getNoteById(noteId)
+        val note = getNoteByIdSuspend(noteId)
         note?.let {
             updateNote(
                 it.copy(
@@ -74,11 +91,9 @@ class NoteRepository(
         }
     }
     
-    // Auto-save functionality
     suspend fun autoSave(note: Note) {
-        val existingNote = getNoteById(note.id)
+        val existingNote = getNoteByIdSuspend(note.id)
         existingNote?.let {
-            // Only save if content changed
             if (it.content != note.content) {
                 updateNote(note)
             }
